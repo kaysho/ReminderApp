@@ -8,5 +8,17 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Fody" />
+    <None Remove="PropertyChanged.Fody" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Template\" />
+    <None Remove="Converter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Template\" />
+    <Folder Include="Converter\" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="ReminderApp.Views.RemindersPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:ReminderApp.Converter"
+    xmlns:local="clr-namespace:ReminderApp.ViewModels"
+    xmlns:local1="clr-namespace:ReminderApp.Template"
+    xmlns:model="clr-namespace:ReminderApp.Models"
+    Title="{Binding Title}"
+    Shell.FlyoutWidth="10"
+    Shell.NavBarHasShadow="True"
+    Shell.TabBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ExpiredReminderDateTimeConverter x:Key="ExpiredReminderDateTimeConverter" />
+            <converters:OngoingReminderDateTimeConverter x:Key="OngoingReminderDateTimeConverter" />
+            <DataTemplate x:Key="OngoingReminderTemplate">
+                <Frame
+                    Margin="10"
+                    Padding="0"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView
+                            CornerRadius="10,0,10,0"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="10"
+                            Color="LightGreen" />
+                        <StackLayout VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="{Binding Title}"
+                                TextColor="Black" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding Description}"
+                                TextColor="Black" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding Date, Converter={StaticResource OngoingReminderDateTimeConverter}}"
+                                TextColor="Black" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+            <DataTemplate x:Key="ExpiredReminderTemplate">
+                <Frame
+                    Margin="10"
+                    Padding="0"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="False">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView
+                            CornerRadius="10,0,10,0"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="10"
+                            Color="Red" />
+                        <StackLayout VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="{Binding Title}" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding Description}"
+                                TextColor="Black" />
+                            <Label
+                                FontSize="12"
+                                Text="{Binding Date, Converter={StaticResource ExpiredReminderDateTimeConverter}}"
+                                TextColor="Black" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+            <local1:ReminderDataTemplateSelector
+                x:Key="ReminderDataTemplateSelector"
+                ExpiredReminderTemplate="{StaticResource ExpiredReminderTemplate}"
+                OngoingReminderTemplate="{StaticResource OngoingReminderTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <CollectionView
+                Margin="10"
+                HorizontalScrollBarVisibility="Never"
+                ItemTemplate="{StaticResource ReminderDataTemplateSelector}"
+                ItemsSource="{Binding Reminders}"
+                VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.EmptyView>
+                    <StackLayout Margin="20">
+                        <Label
+                            Margin="20"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="You currently do not have any reminders at the moment. Click the plus button to add a reminder."
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+            <Frame
+                Margin="20"
+                Padding="0"
+                BackgroundColor="LightGreen"
+                CornerRadius="30"
+                HasShadow="{OnPlatform iOS=True,
+                                       Android=True}"
+                HeightRequest="60"
+                HorizontalOptions="End"
+                IsClippedToBounds="True"
+                VerticalOptions="End"
+                WidthRequest="60">
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding AddReminderCommand}"
+                    FontSize="30"
+                    HorizontalOptions="FillAndExpand"
+                    Text="+"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+            </Frame>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="ReminderApp.Views.NewReminderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="New Reminder">
+    <ContentPage.Content>
+        <StackLayout Padding="15" Spacing="10">
+            <Label FontSize="Medium" Text="Title" />
+            <Frame
+                Padding="0"
+                BorderColor="LightGray"
+                HasShadow="False"
+                HeightRequest="40">
+                <Entry FontSize="Medium" Text="{Binding Text, Mode=TwoWay}" />
+            </Frame>
+
+            <Label FontSize="Medium" Text="Description" />
+            <Frame
+                Padding="0"
+                BorderColor="LightGray"
+                HasShadow="False"
+                HeightRequest="100">
+                <Editor
+                    Margin="0"
+                    AutoSize="TextChanges"
+                    FontSize="Medium"
+                    HeightRequest="50"
+                    Text="{Binding Description, Mode=TwoWay}" />
+            </Frame>
+
+            <Label Text="Reminder date" />
+            <Frame
+                Padding="0"
+                BorderColor="LightGray"
+                HasShadow="False"
+                HeightRequest="40">
+                <DatePicker Date="{Binding ReminderDate}" MinimumDate="{Binding MinimumDate}" />
+            </Frame>
+            <Label Text="Reminder time" />
+            <Frame
+                Padding="0"
+                BorderColor="LightGray"
+                HasShadow="False"
+                HeightRequest="40">
+                <TimePicker Time="{Binding ReminderTime}" />
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button
+                    Command="{Binding CancelCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Cancel" />
+                <Button
+                    Command="{Binding SaveCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Save" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

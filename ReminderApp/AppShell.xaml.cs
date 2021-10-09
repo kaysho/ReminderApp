@@ -6,13 +6,12 @@ using Xamarin.Forms;
 
 namespace ReminderApp
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(NewReminderPage), typeof(NewReminderPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

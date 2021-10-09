@@ -1,8 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using ReminderApp.Services;
-using ReminderApp.Views;
+﻿using Xamarin.Forms;
 
 namespace ReminderApp
 {
@@ -12,8 +8,7 @@ namespace ReminderApp
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
+            Current.UserAppTheme = OSAppTheme.Light;
             MainPage = new AppShell();
         }
 
