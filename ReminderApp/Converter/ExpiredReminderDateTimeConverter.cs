@@ -25,6 +25,10 @@ namespace ReminderApp.Converter
             {
                 stringBuilder.Append($"{difference.Minutes} minute(s) ");
             }
+            if (difference.Seconds != 0)
+            {
+                stringBuilder.Append($"{difference.Seconds} second(s) ");
+            }
 
             stringBuilder.Append("ago");
             return stringBuilder.ToString();

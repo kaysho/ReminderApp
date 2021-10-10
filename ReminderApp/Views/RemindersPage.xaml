@@ -7,7 +7,9 @@
     xmlns:local="clr-namespace:ReminderApp.ViewModels"
     xmlns:local1="clr-namespace:ReminderApp.Template"
     xmlns:model="clr-namespace:ReminderApp.Models"
+    xmlns:vm="clr-namespace:ReminderApp.ViewModels"
     Title="{Binding Title}"
+    x:DataType="vm:RemindersViewModel"
     Shell.FlyoutWidth="10"
     Shell.NavBarHasShadow="True"
     Shell.TabBarIsVisible="False">
@@ -15,66 +17,90 @@
         <ResourceDictionary>
             <converters:ExpiredReminderDateTimeConverter x:Key="ExpiredReminderDateTimeConverter" />
             <converters:OngoingReminderDateTimeConverter x:Key="OngoingReminderDateTimeConverter" />
-            <DataTemplate x:Key="OngoingReminderTemplate">
-                <Frame
-                    Margin="10"
-                    Padding="0"
-                    BorderColor="LightGray"
-                    CornerRadius="10"
-                    HasShadow="False">
-                    <StackLayout Orientation="Horizontal">
-                        <BoxView
-                            CornerRadius="10,0,10,0"
-                            VerticalOptions="FillAndExpand"
-                            WidthRequest="10"
-                            Color="LightGreen" />
-                        <StackLayout VerticalOptions="Center">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="14"
-                                Text="{Binding Title}"
-                                TextColor="Black" />
-                            <Label
-                                FontSize="12"
-                                Text="{Binding Description}"
-                                TextColor="Black" />
-                            <Label
-                                FontSize="12"
-                                Text="{Binding Date, Converter={StaticResource OngoingReminderDateTimeConverter}}"
-                                TextColor="Black" />
+            <DataTemplate x:Key="OngoingReminderTemplate" x:DataType="model:Reminder">
+                <SwipeView Margin="5">
+                    <SwipeView.RightItems>
+                        <SwipeItems>
+                            <SwipeItem
+                                BackgroundColor="Transparent"
+                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:RemindersViewModel}}}"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="trash.png" />
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <Frame
+                        Margin="10"
+                        Padding="0"
+                        BorderColor="LightGray"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView
+                                CornerRadius="10,0,10,0"
+                                VerticalOptions="FillAndExpand"
+                                WidthRequest="10"
+                                Color="LightGreen" />
+                            <StackLayout VerticalOptions="Center">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="{Binding Title}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Description}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Date, Converter={StaticResource OngoingReminderDateTimeConverter}}"
+                                    TextColor="Black" />
+                            </StackLayout>
                         </StackLayout>
-                    </StackLayout>
-                </Frame>
+                    </Frame>
+                </SwipeView>
+
             </DataTemplate>
-            <DataTemplate x:Key="ExpiredReminderTemplate">
-                <Frame
-                    Margin="10"
-                    Padding="0"
-                    BorderColor="LightGray"
-                    CornerRadius="10"
-                    HasShadow="False">
-                    <StackLayout Orientation="Horizontal">
-                        <BoxView
-                            CornerRadius="10,0,10,0"
-                            VerticalOptions="FillAndExpand"
-                            WidthRequest="10"
-                            Color="Red" />
-                        <StackLayout VerticalOptions="Center">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="14"
-                                Text="{Binding Title}" />
-                            <Label
-                                FontSize="12"
-                                Text="{Binding Description}"
-                                TextColor="Black" />
-                            <Label
-                                FontSize="12"
-                                Text="{Binding Date, Converter={StaticResource ExpiredReminderDateTimeConverter}}"
-                                TextColor="Black" />
+            <DataTemplate x:Key="ExpiredReminderTemplate" x:DataType="model:Reminder">
+                <SwipeView Margin="10,10,10,0">
+                    <SwipeView.RightItems>
+                        <SwipeItems>
+                            <SwipeItem
+                                BackgroundColor="Transparent"
+                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:RemindersViewModel}}}"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="trash.png" />
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <Frame
+                        Margin="10"
+                        Padding="0"
+                        BorderColor="LightGray"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView
+                                CornerRadius="10,0,10,0"
+                                VerticalOptions="FillAndExpand"
+                                WidthRequest="10"
+                                Color="Red" />
+                            <StackLayout VerticalOptions="Center">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="{Binding Title}" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Description}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Date, Converter={StaticResource ExpiredReminderDateTimeConverter}}"
+                                    TextColor="Black" />
+                            </StackLayout>
                         </StackLayout>
-                    </StackLayout>
-                </Frame>
+                    </Frame>
+                </SwipeView>
+
             </DataTemplate>
             <local1:ReminderDataTemplateSelector
                 x:Key="ReminderDataTemplateSelector"
@@ -91,9 +117,8 @@
                 ItemsSource="{Binding Reminders}"
                 VerticalScrollBarVisibility="Never">
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    <LinearItemsLayout ItemSpacing="0" Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
-
                 <CollectionView.EmptyView>
                     <StackLayout Margin="20">
                         <Label
@@ -127,7 +152,6 @@
                     TextColor="White"
                     VerticalOptions="Center" />
             </Frame>
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

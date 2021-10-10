@@ -14,7 +14,6 @@ namespace ReminderApp.Template
             var reminder = (Reminder)item;
             var dateTime = reminder.Date;
             return dateTime > DateTime.Now ? OngoingReminderTemplate : ExpiredReminderTemplate;
-
         }
     }
 }
